@@ -38,6 +38,7 @@ class HuskyTrackEnv(gym.Env):
         #Cubo rojo id
         self.red_block_id = None
 
+
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         print("[RESET] Environment reset")
@@ -71,6 +72,7 @@ class HuskyTrackEnv(gym.Env):
         info = {}
         return obs, info
 
+
     def get_camera_image(self):
         pos, orn = p.getBasePositionAndOrientation(self.car)
         matrix = p.getMatrixFromQuaternion(orn)
@@ -87,6 +89,7 @@ class HuskyTrackEnv(gym.Env):
         _, _, img, _, _ = p.getCameraImage(160, 120, view, proj)
         return np.reshape(img, (120, 160, 4))[:, :, :3]
 
+
     def detect_green(self, image):
         hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv, np.array([35, 40, 40]), np.array([90, 255, 255]))
@@ -94,6 +97,7 @@ class HuskyTrackEnv(gym.Env):
         if moments["m00"] == 0:
             return -1
         return int(moments["m10"] / moments["m00"])
+
 
     def move_block(self):
         # Movimiento fluido y semialeatorio para el cubo verde
@@ -106,15 +110,11 @@ class HuskyTrackEnv(gym.Env):
         ry = 2.5 + 0.5 * math.cos(self.frame_count * 0.07 + math.cos(self.frame_count * 0.015))
         p.resetBasePositionAndOrientation(self.red_block_id, [rx, ry, 0.2], [0, 0, 0, 1])
 
-    #def move_block(self):
-        #x = np.random.uniform(2, 3.5)
-        #y = np.random.uniform(-0.5, 2.5)
-        #p.resetBasePositionAndOrientation(self.block_id, [x, y, 0.2], [0, 0, 0, 1])
-
 
     def _set_wheel_velocities(self, vels):
         for j, v in zip([2, 3, 4, 5], vels):
             p.setJointMotorControl2(self.car, j, p.VELOCITY_CONTROL, targetVelocity=v, force=1000)
+
 
     def step(self, action):
         print(f"[STEP] Action: {action}")
