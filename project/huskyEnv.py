@@ -37,16 +37,6 @@ class HuskyTrackEnv(gym.Env):
 
         #Cubo rojo id
         self.red_block_id = None
-        
-        # Crear cubo rojo distractor con movimiento independiente
-        #red_visual = p.createVisualShape(p.GEOM_BOX, halfExtents=[0.2, 0.2, 0.2], rgbaColor=[1, 0, 0, 1])
-        #red_collision = p.createCollisionShape(p.GEOM_BOX, halfExtents=[0.2, 0.2, 0.2])
-        #self.red_block_id = p.createMultiBody(baseMass=1,
-                                                  #baseCollisionShapeIndex=red_collision,
-                                                  #baseVisualShapeIndex=red_visual,
-                                                  #basePosition=[2.5, 2.5, 0.2])  # posición inicial
-
-
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
